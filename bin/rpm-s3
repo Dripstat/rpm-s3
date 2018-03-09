@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 """CLI for serialising metadata updates on an s3-hosted yum repository.
 """
+import boto
+import boto.s3.connection
+import collections
+import logging
+import optparse
 import os
+import shutil
+import subprocess
 import sys
+import tempfile
 import time
 import urlparse
-import tempfile
-import shutil
-import optparse
-import logging
-import collections
 import yum
-import boto
-import subprocess
 
 lib_root = os.path.dirname(os.path.dirname(__file__))
 
@@ -111,11 +112,13 @@ def getclient(base, host_url):
         return boto.connect_s3(
             os.getenv('AWS_ACCESS_KEY'),
             os.getenv('AWS_SECRET_KEY'),
-            host=host_url
+            host=host_url,
+            calling_format=boto.s3.connection.OrdinaryCallingFormat()
         ).get_bucket(base.netloc)
     else:
         return boto.connect_s3(
-            host=host_url
+            host=host_url,
+            calling_format=boto.s3.connection.OrdinaryCallingFormat()
         ).get_bucket(base.netloc)
 
 
