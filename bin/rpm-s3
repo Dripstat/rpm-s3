@@ -139,7 +139,7 @@ def sign(rpmfile):
 
 def sign_metadata(repomdfile, user, password):
     """Requires a proper ~/.rpmmacros file. See <http://fedoranews.org/tchung/gpg/>"""
-    cmd = ["gpg", "--passphrase", password, "-u", user,  "--detach-sign", "--armor", repomdfile]
+    cmd = ["gpg", "--batch", "--yes","--no-use-agent", "--passphrase", password, "-u", user,  "--detach-sign", "--armor", repomdfile]
 
     logging.info(cmd)
     try:
