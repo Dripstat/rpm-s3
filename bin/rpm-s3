@@ -232,7 +232,7 @@ def update_repodata(repopath, rpmfiles, options):
 
     # Generate repodata/repomd.xml.asc
     if options.sign:
-        sign_metadata(os.path.join(tmpdir, 'repodata', 'repomd.xml'), options.signpass, options.signuser)
+        sign_metadata(os.path.join(tmpdir, 'repodata', 'repomd.xml'), options.signuser, options.signpass)
 
     # Replace metadata on s3
     s3grabber.syncdir(os.path.join(tmpdir, 'repodata'), 'repodata')
